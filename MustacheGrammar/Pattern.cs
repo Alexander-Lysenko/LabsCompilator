@@ -6,6 +6,6 @@ namespace MustacheGrammar
     struct Pattern
     {
         public Regex Regex;
-        public Action<State, string[]> Action;
+        public Action<string[]> Action;
     }
 }
