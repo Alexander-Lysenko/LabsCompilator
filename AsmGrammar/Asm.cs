@@ -69,14 +69,14 @@ namespace AsmGrammar
         {
             if (int.Parse(g) > s.Reg.Length)
                 throw new AddressException(
-                    String.Format("Строка {0}: Используется несуществующий адрес: {1}", s.Ip + 1, g));
+                    string.Format("Строка {0}: Используется несуществующий адрес: {1}", s.Ip + 1, g));
         }
 
         private void LD(State s, string[] g)
         {
             if (int.Parse(g[2]) > 255)
                 throw new ParameterOutOfRangeException(
-                    String.Format("Строка {0}: Заданный аргумент ({1}) находится вне диапазона допустимых значений",
+                    string.Format("Строка {0}: Заданный аргумент ({1}) находится вне диапазона допустимых значений",
                         s.Ip + 1, g[2]));
             RegCorrect(s, g[1]);
             s.Reg[int.Parse(g[1])] = byte.Parse(g[2]);
@@ -106,7 +106,7 @@ namespace AsmGrammar
             {
                 if (!s.Labels.ContainsKey(g[1]))
                     throw new LabelUnavailableException(
-                        String.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
+                        string.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
                 s.Ip = s.Labels[g[1]];
             }
         }
@@ -114,7 +114,7 @@ namespace AsmGrammar
         {
             if (!s.Labels.ContainsKey(g[1]))
                 throw new LabelUnavailableException(
-                    String.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
+                    string.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
             s.Ip = s.Labels[g[1]];
         }
         private void SYSCALL(State s, string[] g)

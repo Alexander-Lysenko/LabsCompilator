@@ -8,54 +8,49 @@ namespace AsmUnitTest
     public class UnitTest1
     {
         [TestMethod]
+        [ExpectedException(typeof(ParserException))]
         public void CannotParseString()
         {
             Asm asm = new Asm();
-            try
-            {
-                asm.Evaluate(@"
-ld r1, #16
-mov r1, r10
-add r10, r1
-sub r1, r1
-syscall 10
-");
-            }
-            catch (ParserException e)
-            {
-                Assert.Fail();
-            }
+            asm.Evaluate(@"Джигурда");
         }
 
         [TestMethod]
+        [ExpectedException(typeof(AddressException))]
+        public void AddressException()
+        {
+            Asm asm = new Asm();
+            asm.Evaluate(@"ld r20, #15");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParameterOutOfRangeException))]
+        public void ParameterOutOfRangeException()
+        {
+            Asm asm = new Asm();
+            asm.Evaluate(@"ld r2, #256");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(LabelUnavailableException))]
         public void LabelDoesNotExist()
         {
             Asm asm = new Asm();
-            try
-            {
-                asm.Evaluate(@"
+            asm.Evaluate(@"
 ld r10, #12
 ld r0, #1
 mov r1, r10
-metka:
+m1:
 sub r1, r0
 brgz metka, r1
 ");
-            }
-            catch (LabelUnavailableException e)
-            {
-                Assert.Fail();
-            }
         }
 
         [TestMethod]
         public void CalculationVerify()
         {
-            string ans = "";
             Asm asm = new Asm();
-            try
-            {
-                ans = asm.Evaluate(@"
+            string ans = asm.Evaluate(@"
 ld r10, #12
 ld r0, #1
 ld r14, #66
@@ -75,11 +70,6 @@ syscall 1
 syscall 10
 syscall 14 
 ");
-            }
-            catch (Exception e)
-            {
-                Assert.Fail();
-            }
             string answers = "\nr0 = 1\nr1 = 0\nr10 = 12\nr14 = 66";
             Assert.AreEqual(ans, answers);
         }
