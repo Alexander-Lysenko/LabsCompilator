@@ -115,7 +115,7 @@ namespace AsmGrammar
         private void SYSCALL(State s, string[] g)
         {
             RegCorrect(s, g[1]);
-            _syscall += s.Reg[int.Parse(g[1])] + "\n";
+            _syscall += string.Format("r{0} = {1}\n",g[1], s.Reg[int.Parse(g[1])]);
         }
         private void CLEAR(State s, string[] g)
         {
