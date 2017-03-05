@@ -20,11 +20,12 @@ namespace AsmGrammar
                 new Pattern {Regex = new Regex(@"^MOV\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = MOV},
                 new Pattern {Regex = new Regex(@"^ADD\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = ADD},
                 new Pattern {Regex = new Regex(@"^SUB\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = SUB},
-                new Pattern {Regex = new Regex(@"^BR\s+([A-Z _]\w*)$", RegexOptions.IgnoreCase), Action = BR},
-                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z _]\w*),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = BRGZ},
+                new Pattern {Regex = new Regex(@"^BR\s+([A-Z_]\w*)$", RegexOptions.IgnoreCase), Action = BR},
+                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z_]\w*),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = BRGZ},
                 new Pattern {Regex = new Regex(@"^SYSCALL\s+(\d{1,2})$", RegexOptions.IgnoreCase), Action = SYSCALL},
                 new Pattern {Regex = new Regex(@"^CLEAR$", RegexOptions.IgnoreCase), Action = CLEAR},
                 new Pattern {Regex = new Regex(@"^(\w+):$", RegexOptions.IgnoreCase), Action = (x, y) => { }},
+                new Pattern {Regex = new Regex(@"^//\w*$", RegexOptions.IgnoreCase), Action = (x, y) => { }},
             };
         }
         
@@ -114,7 +115,7 @@ namespace AsmGrammar
         private void SYSCALL(State s, string[] g)
         {
             RegCorrect(s, g[1]);
-            _syscall += s.Reg[int.Parse(g[1])] + "\n\r";
+            _syscall += s.Reg[int.Parse(g[1])] + "\n";
         }
         private void CLEAR(State s, string[] g)
         {
