@@ -49,7 +49,7 @@ namespace AsmGrammar
                     }
                 }
                 if(!metka)
-                    throw new Exception("Нераспознаная строка: " + _state.Ip);
+                    throw new Exception("Строка не распознана: " + lines[_state.Ip]);
                 _state.Ip++;
             }
             return _syscall;
@@ -115,7 +115,7 @@ namespace AsmGrammar
         private void SYSCALL(State s, string[] g)
         {
             RegCorrect(s, g[1]);
-            _syscall += string.Format("r{0} = {1}\n",g[1], s.Reg[int.Parse(g[1])]);
+            _syscall += string.Format("r{0} = {1}",g[1], s.Reg[int.Parse(g[1])]);
         }
         private void CLEAR(State s, string[] g)
         {

@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:asmUi="clr-namespace:AsmUI"
         mc:Ignorable="d"
         Title="Интерпретатор языка ассемблера"
         Height="500"
         Width="600"
         MinHeight="500"
-        MinWidth="400" Closing="Window_Closing">
+        MinWidth="400" Closing="Window_Closing"
+        Icon="asm.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -19,30 +21,31 @@
         <Menu Grid.Row="0"
               Margin="10,0">
             <MenuItem Header="Файл">
-                <MenuItem Header="Новый" x:Name="New" Click="New_OnClick"/>
-                <MenuItem Header="Открыть" x:Name="Open" Click="Open_OnClick"/>
-                <MenuItem Header="Сохранить" x:Name="Save" Click="Save_OnClick"/>
-                <MenuItem Header="Сохранить как..." x:Name="SaveAs" Click="SaveAs_OnClick"/>
+                <MenuItem Header="Новый" x:Name="New" Command="New"/>
+                <MenuItem Header="Открыть" x:Name="Open" Command="Open"/>
+                <MenuItem Header="Сохранить" x:Name="Save" Command="Save"/>
+                <MenuItem Header="Сохранить как..." x:Name="SaveAs" Command="SaveAs"/>
                 <Separator />
-                <MenuItem Header="Закрыть" x:Name="Close" Click="Close_Click"/>
+                <MenuItem Header="Закрыть" x:Name="Close" Command="Close" InputGestureText="Alt+F4"/>
             </MenuItem>
-            <MenuItem Header="Правка" IsEnabled="False">
-                <MenuItem Header="Отменить" />
-                <MenuItem Header="Вернуть" />
-                <MenuItem Header="Вырезать" />
-                <MenuItem Header="Копировать" />
-                <MenuItem Header="Вставить" />
+            <MenuItem Header="Правка">
+                <MenuItem Header="Отменить" Command="Undo"/>
+                <MenuItem Header="Вернуть" Command="Redo"/>
+                <MenuItem Header="Вырезать" Command="Cut"/>
+                <MenuItem Header="Копировать" Command="Copy"/>
+                <MenuItem Header="Вставить" Command="Paste"/>
             </MenuItem>
             <MenuItem Header="Программа">
-                <MenuItem Header="Запустить" x:Name="Run" Click="Start_OnClick"/>
-                <MenuItem Header="Протестировать" x:Name="Test" Click="Test_OnClick"/>
+                <MenuItem Header="Запустить" x:Name="Run" Command="asmUi:WindowCommands.Run" InputGestureText="F5"/>
             </MenuItem>
             <MenuItem Header="Справка">
-                <MenuItem Header="Вызов справки" x:Name="Help" Click="Help_OnClick"/>
+                <MenuItem Header="Вызов справки" x:Name="Help" Command="Help"/>
             </MenuItem>
         </Menu>
         <RichTextBox Grid.Row="1" Margin="10,0,10,5" x:Name="CommandsRtb"
-                     FontFamily="Courier New" FontSize="14" TextOptions.TextFormattingMode="Display" Block.LineHeight="1">
+                     FontFamily="Courier New" FontSize="14" TextOptions.TextFormattingMode="Display" Block.LineHeight="1"
+                     VerticalScrollBarVisibility="Auto"
+                     TextChanged="CommandsRtb_OnTextChanged">
             <FlowDocument>
                 <Paragraph />
             </FlowDocument>
@@ -52,17 +55,18 @@
                       Margin="10, 0"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Stretch" />
-        <TextBox Grid.Row="3" Margin="10,5" x:Name="RegistersTb" />
+        <TextBox Grid.Row="3" Margin="10,5" x:Name="RegistersTb" VerticalScrollBarVisibility="Auto"/>
     </Grid>
     <Window.CommandBindings>
-        <CommandBinding Command="New" Executed="New_OnClick" />
-        <CommandBinding Command="Open" Executed="Open_OnClick" />
-        <CommandBinding Command="Save" Executed="Save_OnClick" />
-        <CommandBinding Command="SaveAs" Executed="Save_OnClick" />
-        <CommandBinding Command="Help" Executed="Help_OnClick" />
+        <CommandBinding Command="New" Executed="New_OnClick"/>
+        <CommandBinding Command="Open" Executed="Open_OnClick"/>
+        <CommandBinding Command="Save" Executed="Save_OnClick"/>
+        <CommandBinding Command="SaveAs" Executed="SaveAs_OnClick"/>
+        <CommandBinding Command="Close" Executed="Close_Click"/>
+        <CommandBinding Command="asmUi:WindowCommands.Run" Executed="Start_OnClick"/>
+        <CommandBinding Command="Help" Executed="Help_OnClick"/>
     </Window.CommandBindings>
     <Window.InputBindings>
-        <!--KeyBinding Command="Run" Key="F5" />
-        <KeyBinding Command="Test" Key="F9"/-->
+        <KeyBinding Command="asmUi:WindowCommands.Run" Gesture="F5"/>
     </Window.InputBindings>
 </Window>
