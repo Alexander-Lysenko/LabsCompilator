@@ -49,7 +49,7 @@ namespace AsmGrammar
                     }
                 }
                 if(!metka)
-                    throw new ParserException("Строка не распознана: " + lines[_state.Ip]);
+                    throw new ParserException(lines[_state.Ip]);
                 _state.Ip++;
             }
             return _syscall;
@@ -68,16 +68,13 @@ namespace AsmGrammar
         private void RegCorrect(State s, string g)
         {
             if (int.Parse(g) > s.Reg.Length)
-                throw new AddressException(
-                    string.Format("Строка {0}: Используется несуществующий адрес: {1}", s.Ip + 1, g));
+                throw new AddressException(s.Ip + 1, g);
         }
 
         private void LD(State s, string[] g)
         {
             if (int.Parse(g[2]) > 255)
-                throw new ParameterOutOfRangeException(
-                    string.Format("Строка {0}: Заданный аргумент ({1}) находится вне диапазона допустимых значений",
-                        s.Ip + 1, g[2]));
+                throw new ParameterOutOfRangeException(s.Ip + 1, g[2]);
             RegCorrect(s, g[1]);
             s.Reg[int.Parse(g[1])] = byte.Parse(g[2]);
         }
@@ -105,16 +102,14 @@ namespace AsmGrammar
             if (s.Reg[int.Parse(g[2])] > 0)
             {
                 if (!s.Labels.ContainsKey(g[1]))
-                    throw new LabelUnavailableException(
-                        string.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
+                    throw new LabelUnavailableException( s.Ip + 1, g[1]);
                 s.Ip = s.Labels[g[1]];
             }
         }
         private void BR(State s, string[] g)
         {
             if (!s.Labels.ContainsKey(g[1]))
-                throw new LabelUnavailableException(
-                    string.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
+                throw new LabelUnavailableException(s.Ip + 1, g[1]);
             s.Ip = s.Labels[g[1]];
         }
         private void SYSCALL(State s, string[] g)
