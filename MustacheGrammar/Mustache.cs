@@ -44,7 +44,7 @@ namespace MustacheGrammar
         private void ParsDictionary(string dictionary)
         {
             string[] lines = dictionary.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            Regex r = new Regex(@"(\w+)\s*-\s*(\w+)");
+            Regex r = new Regex(@"^(\w+)\s*-\s*(\w+)$");
             foreach (var l in lines)
             {
                 Match m = r.Match(l.Trim());
