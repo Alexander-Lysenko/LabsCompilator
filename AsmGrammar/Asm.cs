@@ -102,14 +102,14 @@ namespace AsmGrammar
             if (s.Reg[int.Parse(g[2])] > 0)
             {
                 if (!s.Labels.ContainsKey(g[1]))
-                    throw new Exception("Попытка перейти на несуществующую метку");
+                    throw new Exception("Попытка перейти на несуществующую метку: " + g[1]);
                 s.Ip = s.Labels[g[1]];
             }
         }
         private void BR(State s, string[] g)
         {
             if (!s.Labels.ContainsKey(g[1]))
-                throw new Exception("Попытка перейти на несуществующую метку");
+                throw new Exception("Попытка перейти на несуществующую метку: " + g[1]);
             s.Ip = s.Labels[g[1]];
         }
         private void SYSCALL(State s, string[] g)
