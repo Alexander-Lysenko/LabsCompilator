@@ -16,24 +16,26 @@ namespace AsmGrammar
             _state = new State();
             _patterns = new List<Pattern>
             {
-                new Pattern {Regex = new Regex(@"^LD\s+r(\d{1, 2}),\s*#(\d{1, 3})$", RegexOptions.IgnoreCase), Action = LD},
-                new Pattern {Regex = new Regex(@"^MOV\s+r(\d{1, 2}),\s*r(\d{1, 2})$", RegexOptions.IgnoreCase), Action = MOV},
-                new Pattern {Regex = new Regex(@"^ADD\s+r(\d{1, 2}),\s*r(\d{1, 2})$", RegexOptions.IgnoreCase), Action = ADD},
-                new Pattern {Regex = new Regex(@"^SUB\s+r(\d{1, 2}),\s*r(\d{1, 2})$", RegexOptions.IgnoreCase), Action = SUB},
+                new Pattern {Regex = new Regex(@"^LD\s+r(\d{1,2}),\s*#(\d{1,3})$", RegexOptions.IgnoreCase), Action = LD},
+                new Pattern {Regex = new Regex(@"^MOV\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = MOV},
+                new Pattern {Regex = new Regex(@"^ADD\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = ADD},
+                new Pattern {Regex = new Regex(@"^SUB\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = SUB},
                 new Pattern {Regex = new Regex(@"^BR\s+([A-Z _]\w*)$", RegexOptions.IgnoreCase), Action = BR},
-                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z _]\w*),\s*r(\d{1, 2})$", RegexOptions.IgnoreCase), Action = BRGZ},
-                new Pattern {Regex = new Regex(@"^SYSCALL\s+(\d{1, 2})$", RegexOptions.IgnoreCase), Action = SYSCALL},
+                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z _]\w*),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = BRGZ},
+                new Pattern {Regex = new Regex(@"^SYSCALL\s+(\d{1,2})$", RegexOptions.IgnoreCase), Action = SYSCALL},
                 new Pattern {Regex = new Regex(@"^CLEAR$", RegexOptions.IgnoreCase), Action = CLEAR},
+                new Pattern {Regex = new Regex(@"^(\w+):$", RegexOptions.IgnoreCase), Action = (x, y) => { }},
             };
         }
         
         public string Evaluate(string text)
         {
-            string[] lines = text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             LabelsRegistration(lines);
             int n = lines.Length;
             while (_state.Ip < n)
             {
+                bool metka = false;
                 foreach (var pattern in _patterns)
                 {
                     Match m = pattern.Regex.Match(lines[_state.Ip].Trim());
@@ -41,9 +43,12 @@ namespace AsmGrammar
                     {
                         string[] groups = m.Groups.OfType<Group>().Select(x => x.Value).ToArray();
                         pattern.Action(_state, groups);
+                        metka = true;
                         break;
                     }
                 }
+                if(!metka)
+                    throw new Exception("Нераспознаная строка: " + _state.Ip);
                 _state.Ip++;
             }
             return _syscall;
@@ -58,36 +63,41 @@ namespace AsmGrammar
                     _state.Labels.Add(m.Groups[1].Value ,i);
             }
         }
+
+        private void RegCorrect(State s, string g)
+        {
+            if (int.Parse(g) > s.Reg.Length)
+                throw new Exception("Используется несуществующий адрес: " + g);
+        }
+
         private void LD(State s, string[] g)
         {
             if (int.Parse(g[2]) > 255)
                 throw new ArgumentOutOfRangeException();
-            if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[1]);
             s.Reg[int.Parse(g[1])] = byte.Parse(g[2]);
         }
         private void MOV(State s, string[] g)
         {
-            if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[1]);
+            RegCorrect(s, g[2]);
             s.Reg[int.Parse(g[1])] = s.Reg[int.Parse(g[2])];
         }
         private void ADD(State s, string[] g)
         {
-            if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[1]);
+            RegCorrect(s, g[2]);
             s.Reg[int.Parse(g[1])] += s.Reg[int.Parse(g[2])];
         }
         private void SUB(State s, string[] g)
         {
-            if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[1]);
+            RegCorrect(s, g[2]);
             s.Reg[int.Parse(g[1])] -= s.Reg[int.Parse(g[2])];
         }
         private void BRGZ(State s, string[] g)
         {
-            if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[2]);
             if (s.Reg[int.Parse(g[2])] > 0)
             {
                 if (!s.Labels.ContainsKey(g[1]))
@@ -103,8 +113,7 @@ namespace AsmGrammar
         }
         private void SYSCALL(State s, string[] g)
         {
-            if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий адрес");
+            RegCorrect(s, g[1]);
             _syscall += s.Reg[int.Parse(g[1])] + "\n\r";
         }
         private void CLEAR(State s, string[] g)

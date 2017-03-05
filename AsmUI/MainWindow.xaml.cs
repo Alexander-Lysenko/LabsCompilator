@@ -51,9 +51,16 @@ namespace AsmUI
         }
         private void Start_OnClick(object sender, RoutedEventArgs e)
         {
-            Asm asm = new Asm();
-            RegistersTb.Text += DateTime.Now.ToLongTimeString() + ": запуск программы\n";
-            RegistersTb.Text += asm.Evaluate(new TextRange(CommandsRtb.Document.ContentStart, CommandsRtb.Document.ContentEnd).Text);
+            try
+            {
+                Asm asm = new Asm();
+                RegistersTb.Text += DateTime.Now.ToLongTimeString() + ": запуск программы\n";
+                RegistersTb.Text += asm.Evaluate(new TextRange(CommandsRtb.Document.ContentStart, CommandsRtb.Document.ContentEnd).Text) + "\n";
+            }
+            catch (Exception ex)
+            {
+                RegistersTb.Text += ex.Message;
+            }    
         }
         private void Test_OnClick(object sender, RoutedEventArgs e)
         {
