@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsmGrammar", "AsmGrammar\AsmGrammar.csproj", "{FFD820BD-0960-4392-B5C6-A1332203AC79}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdLiteGrammar", "MdLiteGrammar\MdLiteGrammar.csproj", "{FBA804D7-690D-430C-B128-BCFF330D4071}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdLiteUI", "MdLiteUI\MdLiteUI.csproj", "{3D0B8F29-424B-44FB-9AF2-CFCB5D093AB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsmUnitTest", "AsmUnitTest\AsmUnitTest.csproj", "{9381114B-EA6F-4CEE-9933-F613EEF5B796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{3D0B8F29-424B-44FB-9AF2-CFCB5D093AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D0B8F29-424B-44FB-9AF2-CFCB5D093AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D0B8F29-424B-44FB-9AF2-CFCB5D093AB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9381114B-EA6F-4CEE-9933-F613EEF5B796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9381114B-EA6F-4CEE-9933-F613EEF5B796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9381114B-EA6F-4CEE-9933-F613EEF5B796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9381114B-EA6F-4CEE-9933-F613EEF5B796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

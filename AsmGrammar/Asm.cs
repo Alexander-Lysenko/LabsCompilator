@@ -16,13 +16,13 @@ namespace AsmGrammar
             _state = new State();
             _patterns = new List<Pattern>
             {
-                new Pattern {Regex = new Regex(@"^LD\s+r(\d{1,2}),\s*#(\d{1,3})$", RegexOptions.IgnoreCase), Action = LD},
-                new Pattern {Regex = new Regex(@"^MOV\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = MOV},
-                new Pattern {Regex = new Regex(@"^ADD\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = ADD},
-                new Pattern {Regex = new Regex(@"^SUB\s+r(\d{1,2}),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = SUB},
+                new Pattern {Regex = new Regex(@"^LD\s+r(\d+),\s*#(\d+)$", RegexOptions.IgnoreCase), Action = LD},
+                new Pattern {Regex = new Regex(@"^MOV\s+r(\d+),\s*r(\d+)$", RegexOptions.IgnoreCase), Action = MOV},
+                new Pattern {Regex = new Regex(@"^ADD\s+r(\d+),\s*r(\d+)$", RegexOptions.IgnoreCase), Action = ADD},
+                new Pattern {Regex = new Regex(@"^SUB\s+r(\d+),\s*r(\d+)$", RegexOptions.IgnoreCase), Action = SUB},
                 new Pattern {Regex = new Regex(@"^BR\s+([A-Z_]\w*)$", RegexOptions.IgnoreCase), Action = BR},
-                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z_]\w*),\s*r(\d{1,2})$", RegexOptions.IgnoreCase), Action = BRGZ},
-                new Pattern {Regex = new Regex(@"^SYSCALL\s+(\d{1,2})$", RegexOptions.IgnoreCase), Action = SYSCALL},
+                new Pattern {Regex = new Regex(@"^BRGZ\s+([A-Z_]\w*),\s*r(\d+)$", RegexOptions.IgnoreCase), Action = BRGZ},
+                new Pattern {Regex = new Regex(@"^SYSCALL\s+(\d+)$", RegexOptions.IgnoreCase), Action = SYSCALL},
                 new Pattern {Regex = new Regex(@"^CLEAR$", RegexOptions.IgnoreCase), Action = CLEAR},
                 new Pattern {Regex = new Regex(@"^(\w+):$", RegexOptions.IgnoreCase), Action = (x, y) => { }},
                 new Pattern {Regex = new Regex(@"^//\w*$", RegexOptions.IgnoreCase), Action = (x, y) => { }},
@@ -49,7 +49,7 @@ namespace AsmGrammar
                     }
                 }
                 if(!metka)
-                    throw new Exception("Строка не распознана: " + lines[_state.Ip]);
+                    throw new ParserException("Строка не распознана: " + lines[_state.Ip]);
                 _state.Ip++;
             }
             return _syscall;
@@ -68,13 +68,16 @@ namespace AsmGrammar
         private void RegCorrect(State s, string g)
         {
             if (int.Parse(g) > s.Reg.Length)
-                throw new Exception("Используется несуществующий адрес: " + g);
+                throw new AddressException(
+                    String.Format("Строка {0}: Используется несуществующий адрес: {1}", s.Ip + 1, g));
         }
 
         private void LD(State s, string[] g)
         {
             if (int.Parse(g[2]) > 255)
-                throw new ArgumentOutOfRangeException();
+                throw new ParameterOutOfRangeException(
+                    String.Format("Строка {0}: Заданный аргумент ({1}) находится вне диапазона допустимых значений",
+                        s.Ip + 1, g[2]));
             RegCorrect(s, g[1]);
             s.Reg[int.Parse(g[1])] = byte.Parse(g[2]);
         }
@@ -102,20 +105,22 @@ namespace AsmGrammar
             if (s.Reg[int.Parse(g[2])] > 0)
             {
                 if (!s.Labels.ContainsKey(g[1]))
-                    throw new Exception("Попытка перейти на несуществующую метку: " + g[1]);
+                    throw new LabelUnavailableException(
+                        String.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
                 s.Ip = s.Labels[g[1]];
             }
         }
         private void BR(State s, string[] g)
         {
             if (!s.Labels.ContainsKey(g[1]))
-                throw new Exception("Попытка перейти на несуществующую метку: " + g[1]);
+                throw new LabelUnavailableException(
+                    String.Format("Строка {0}: Попытка перейти на несуществующую метку: {1}", s.Ip + 1, g[1]));
             s.Ip = s.Labels[g[1]];
         }
         private void SYSCALL(State s, string[] g)
         {
             RegCorrect(s, g[1]);
-            _syscall += string.Format("r{0} = {1}",g[1], s.Reg[int.Parse(g[1])]);
+            _syscall += string.Format("\nr{0} = {1}",g[1], s.Reg[int.Parse(g[1])]);
         }
         private void CLEAR(State s, string[] g)
         {

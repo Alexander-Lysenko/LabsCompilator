@@ -7,7 +7,9 @@ namespace AsmUI
         static WindowCommands()
         {
             Run = new RoutedCommand("Run", typeof(MainWindow));
+            ClearConsole = new RoutedCommand("ClearConsole", typeof(MainWindow));
         }
         public static RoutedCommand Run { get; set; }
+        public static RoutedCommand ClearConsole { get; set; }
     }
 }

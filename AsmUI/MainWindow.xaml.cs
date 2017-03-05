@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using Microsoft.Win32;
 using AsmGrammar;
 
@@ -95,7 +96,7 @@ namespace AsmUI
                 Asm asm = new Asm();
                 RegistersTb.Text += DateTime.Now.ToLongTimeString() + ": ";
                 answer = asm.Evaluate(new TextRange(CommandsRtb.Document.ContentStart, CommandsRtb.Document.ContentEnd).Text);
-                RegistersTb.Text += "успешный запуск программы\r\n" + answer;
+                RegistersTb.Text += "успешный запуск программы" + answer;
                 
             }
             catch (Exception ex)
@@ -131,5 +132,9 @@ namespace AsmUI
             }
         }
 
+        private void ClearConsole_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            RegistersTb.Text = "";
+        }
     }
 }
