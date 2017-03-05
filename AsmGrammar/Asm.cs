@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace AsmGrammar
 {
-    class Asm
+    public class Asm
     {
         private readonly State _state;
         private readonly List<Pattern> _patterns;
@@ -26,7 +26,7 @@ namespace AsmGrammar
                 new Pattern {Regex = new Regex(@"^CLEAR$", RegexOptions.IgnoreCase), Action = CLEAR},
             };
         }
-
+        
         public string Evaluate(string text)
         {
             string[] lines = text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -48,7 +48,6 @@ namespace AsmGrammar
             }
             return _syscall;
         }
-
         private void LabelsRegistration(string[] text)
         {
             Regex labelRegex = new Regex(@"^(\w+):$", RegexOptions.IgnoreCase);
@@ -59,41 +58,36 @@ namespace AsmGrammar
                     _state.Labels.Add(m.Groups[1].Value ,i);
             }
         }
-
         private void LD(State s, string[] g)
         {
             if (int.Parse(g[2]) > 255)
                 throw new ArgumentOutOfRangeException();
             if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             s.Reg[int.Parse(g[1])] = byte.Parse(g[2]);
         }
-
         private void MOV(State s, string[] g)
         {
             if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             s.Reg[int.Parse(g[1])] = s.Reg[int.Parse(g[2])];
         }
-
         private void ADD(State s, string[] g)
         {
             if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             s.Reg[int.Parse(g[1])] += s.Reg[int.Parse(g[2])];
         }
-
         private void SUB(State s, string[] g)
         {
             if (int.Parse(g[1]) > 15 || int.Parse(g[2]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             s.Reg[int.Parse(g[1])] -= s.Reg[int.Parse(g[2])];
         }
-
         private void BRGZ(State s, string[] g)
         {
             if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             if (s.Reg[int.Parse(g[2])] > 0)
             {
                 if (!s.Labels.ContainsKey(g[1]))
@@ -101,21 +95,18 @@ namespace AsmGrammar
                 s.Ip = s.Labels[g[1]];
             }
         }
-
         private void BR(State s, string[] g)
         {
             if (!s.Labels.ContainsKey(g[1]))
                 throw new Exception("Попытка перейти на несуществующую метку");
             s.Ip = s.Labels[g[1]];
         }
-
         private void SYSCALL(State s, string[] g)
         {
             if (int.Parse(g[1]) > 15)
-                throw new Exception("Используется несуществующий аддрес");
+                throw new Exception("Используется несуществующий адрес");
             _syscall += s.Reg[int.Parse(g[1])] + "\n\r";
         }
-
         private void CLEAR(State s, string[] g)
         {
             s.Reg = s.Reg.Select(x => (byte)0).ToArray();

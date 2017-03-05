@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Интерпретатор языка ассемблера"
         Height="500"
         Width="600"
         MinHeight="500"
-        MinWidth="400">
+        MinWidth="400" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -19,14 +19,14 @@
         <Menu Grid.Row="0"
               Margin="10,0">
             <MenuItem Header="Файл">
-                <MenuItem Header="Новый" />
-                <MenuItem Header="Открыть" />
-                <MenuItem Header="Сохранить" />
-                <MenuItem Header="Сохранить как..." />
+                <MenuItem Header="Новый" x:Name="New" Click="New_OnClick"/>
+                <MenuItem Header="Открыть" x:Name="Open" Click="Open_OnClick"/>
+                <MenuItem Header="Сохранить" x:Name="Save" Click="Save_OnClick"/>
+                <MenuItem Header="Сохранить как..." x:Name="SaveAs" Click="SaveAs_OnClick"/>
                 <Separator />
-                <MenuItem Header="Закрыть" />
+                <MenuItem Header="Закрыть" x:Name="Close" Click="Close_Click"/>
             </MenuItem>
-            <MenuItem Header="Правка">
+            <MenuItem Header="Правка" IsEnabled="False">
                 <MenuItem Header="Отменить" />
                 <MenuItem Header="Вернуть" />
                 <MenuItem Header="Вырезать" />
@@ -34,15 +34,15 @@
                 <MenuItem Header="Вставить" />
             </MenuItem>
             <MenuItem Header="Программа">
-                <MenuItem Header="Запустить" />
-                <MenuItem Header="Протестировать" />
+                <MenuItem Header="Запустить" x:Name="Run" Click="Start_OnClick"/>
+                <MenuItem Header="Протестировать" x:Name="Test" Click="Test_OnClick"/>
             </MenuItem>
             <MenuItem Header="Справка">
-                <MenuItem Header="Вызов справки" />
+                <MenuItem Header="Вызов справки" x:Name="Help" Click="Help_OnClick"/>
             </MenuItem>
         </Menu>
-        <RichTextBox Grid.Row="1"
-                     Margin="10,0,10,5">
+        <RichTextBox Grid.Row="1" Margin="10,0,10,5" x:Name="CommandsRtb"
+                     FontFamily="Courier New" FontSize="14" TextOptions.TextFormattingMode="Display" Block.LineHeight="1">
             <FlowDocument>
                 <Paragraph />
             </FlowDocument>
@@ -52,7 +52,17 @@
                       Margin="10, 0"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Stretch" />
-        <TextBox  Grid.Row="3"
-                  Margin="10,5" />
+        <TextBox Grid.Row="3" Margin="10,5" x:Name="RegistersTb" />
     </Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="New_OnClick" />
+        <CommandBinding Command="Open" Executed="Open_OnClick" />
+        <CommandBinding Command="Save" Executed="Save_OnClick" />
+        <CommandBinding Command="SaveAs" Executed="Save_OnClick" />
+        <CommandBinding Command="Help" Executed="Help_OnClick" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <!--KeyBinding Command="Run" Key="F5" />
+        <KeyBinding Command="Test" Key="F9"/-->
+    </Window.InputBindings>
 </Window>
