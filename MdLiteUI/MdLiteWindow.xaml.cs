@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MdLiteGrammar;
 
 namespace MdLiteUI
 {
@@ -23,6 +24,15 @@ namespace MdLiteUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ParseBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            MdLite mdLite = new MdLite();
+            //ResultsWb.NavigateToString(mdLite.Parse(new TextRange(MarkdownRtb.Document.ContentStart, 
+            //    MarkdownRtb.Document.ContentEnd).Text));
+            ResultsWb.Text = mdLite.Parse(new TextRange(MarkdownRtb.Document.ContentStart,
+                MarkdownRtb.Document.ContentEnd).Text);
         }
     }
 }

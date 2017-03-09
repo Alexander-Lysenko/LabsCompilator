@@ -11,7 +11,7 @@ namespace MdLiteGrammar
         {
             _patterns = new List<Pattern>
             {
-                new Pattern { Regex = new Regex(@"(#{1,6})(\w+)$"), Action = H},
+                new Pattern { Regex = new Regex(@"(#{1,6})(\s*\w+\s*)+$"), Action = H},
                 new Pattern { Regex = new Regex(@"\*(\w+)\*"), Action = Em},
                 new Pattern { Regex = new Regex(@"\*\*(\w+)\*\*"), Action = Strong},
                 new Pattern { Regex = new Regex(@"\[(\w+)\]\((\w+)\)"), Action = A},
@@ -20,15 +20,17 @@ namespace MdLiteGrammar
 
         }
 
-        public string Pars(string text)
+        public string Parse(string text)
         {
             bool k = true;
+            text = text.Replace("\r\n", "\n");
             while (k)
             {
                 string textClone = text;
                 foreach (var pat in _patterns)
                 {
-                    pat.Regex.Replace(text, pat.Action);
+                    if (pat.Regex.IsMatch(text))
+                    text = pat.Regex.Replace(text, pat.Action);
                 }
                 k = text != textClone;
             }
