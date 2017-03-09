@@ -7,10 +7,19 @@ namespace MustacheGrammar
     public class Mustache
     {
         private readonly Dictionary<string, string> _dictionary;
+        private readonly List<Pattern> _patterns;
 
         public Mustache()
         {
             _dictionary = new Dictionary<string, string>();
+            _patterns = new List<Pattern>
+            {
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*}}"), Action = Repl},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+upper\s*}}"), Action = ReplUpper},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+lower\s*}}"), Action = ReplLower},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+title\s*}}"), Action = ReplTitle},
+                new Pattern { Regex = new Regex(@"{{\s*ifnot\s*(\w+):\s*(\w+)\s*}}"), Action = ReplIfnot},
+            };
         }
 
         public string Pars(string text, string dictionary)
@@ -21,21 +30,10 @@ namespace MustacheGrammar
             {
                 string textClone = text;
 
-                Regex r = new Regex(@"{{\s*(\w+)\s*}}");
-                text = r.Replace(text, Repl);
-
-                r = new Regex(@"{{\s*(\w+)\s*\|\s+upper\s*}}");
-                text = r.Replace(text, ReplUpper);
-
-                r = new Regex(@"{{\s*(\w+)\s*\|\s+lower\s*}}");
-                text = r.Replace(text, ReplLower);
-
-                r = new Regex(@"{{\s*(\w+)\s*\|\s+title\s*}}");
-                text = r.Replace(text, ReplTitle);
-
-                r = new Regex(@"{{\s*ifnot\s*(\w+):\s*(\w+)\s*}}");
-                text = r.Replace(text, ReplIfnot);
-
+                foreach (var pat in _patterns)
+                {
+                    pat.Regex.Replace(text, pat.Action);
+                }
                 k = text != textClone;
             }
             return text;
