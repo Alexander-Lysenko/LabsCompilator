@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
-using MdLiteGrammar;
+using MustacheGrammar;
 
-namespace MdLiteUI
+namespace MustacheUI
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -16,11 +16,12 @@ namespace MdLiteUI
 
         private void ParseBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            MdLite mdLite = new MdLite();
-            //ResultsWb.NavigateToString(mdLite.Parse(new TextRange(MarkdownRtb.Document.ContentStart, 
-            //    MarkdownRtb.Document.ContentEnd).Text));
-            ResultsWb.Text = mdLite.Parse(new TextRange(MarkdownRtb.Document.ContentStart,
-                MarkdownRtb.Document.ContentEnd).Text);
+            Mustache mustache = new Mustache();
+            ResultsTb.Text = mustache.Parse(
+                new TextRange(TemplateRtb.Document.ContentStart,
+                    TemplateRtb.Document.ContentEnd).Text,
+                new TextRange(KeyValueRtb.Document.ContentStart,
+                    KeyValueRtb.Document.ContentEnd).Text);
         }
     }
 }

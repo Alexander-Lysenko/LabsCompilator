@@ -22,7 +22,7 @@ namespace MustacheGrammar
             };
         }
 
-        public string Pars(string text, string dictionary)
+        public string Parse(string text, string dictionary)
         {
             ParsDictionary(dictionary);
             bool k = true;
