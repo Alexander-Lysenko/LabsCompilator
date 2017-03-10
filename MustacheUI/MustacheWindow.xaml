@@ -1,0 +1,58 @@
+﻿<Window x:Class="MustacheUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Шаблонизатор Mustache"
+        Height="480"
+        Width="640"
+        MinHeight="480"
+        MinWidth="640">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="100*" MinHeight="100"/>
+            <RowDefinition Height="15" />
+            <RowDefinition Height="300*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320*" MinWidth="250"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="320*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="3" Margin="10,0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый" x:Name="New" Command="New"/>
+                <MenuItem Header="Открыть" x:Name="Open" Command="Open"/>
+                <MenuItem Header="Сохранить" x:Name="Save" Command="Save"/>
+                <MenuItem Header="Сохранить как..." x:Name="SaveAs" Command="SaveAs"/>
+                <Separator />
+                <MenuItem Header="Закрыть" x:Name="Close" Command="Close" InputGestureText="Alt+F4"/>
+            </MenuItem>
+        </Menu>
+        <GroupBox Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" Header="Ключи-значения для замены в шаблоне">
+            <RichTextBox  x:Name="KeyValueRtb"
+                     FontFamily="Courier New" FontSize="14" TextOptions.TextFormattingMode="Display" Block.LineHeight="1"
+                     VerticalScrollBarVisibility="Auto">
+            </RichTextBox>
+        </GroupBox>
+        <GridSplitter Grid.Row="2" Grid.Column="0" Height="5" Margin="10,0,0,0"
+                      VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+        <GroupBox Grid.Row="3" Grid.Column="0" Margin="10,0,0,0" Header="Текст шаблона">
+            <RichTextBox x:Name="TemplateRtb"
+                     FontFamily="Courier New" FontSize="14" TextOptions.TextFormattingMode="Display" Block.LineHeight="1"
+                     VerticalScrollBarVisibility="Auto">
+            </RichTextBox>
+        </GroupBox>
+        <Button Grid.Row="4" Grid.Column="0" Margin="10,5,0,5" x:Name="ParseBtn" Click="ParseBtn_OnClick">
+            Выполнить шаблон
+        </Button>
+        <GridSplitter Grid.Row="1"  Grid.Column="1" Grid.RowSpan="4" Width="5" Margin="5"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+        <GroupBox Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Margin="0,0,10,5" Header="Результат шаблона">
+        <TextBox x:Name="ResultsTb"/>
+        </GroupBox>
+    </Grid>
+</Window>
