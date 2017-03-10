@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace MdLiteGrammar
@@ -11,26 +12,25 @@ namespace MdLiteGrammar
         {
             _patterns = new List<Pattern>
             {
-                new Pattern { Regex = new Regex(@"(#{1,6})(\s*\w+\s*)+$"), Action = H},
+                new Pattern { Regex = new Regex(@"(#{1,6})((\w{1} {0,1})+)$"), Action = H},
                 new Pattern { Regex = new Regex(@"\*(\w+)\*"), Action = Em},
                 new Pattern { Regex = new Regex(@"\*\*(\w+)\*\*"), Action = Strong},
                 new Pattern { Regex = new Regex(@"\[(\w+)\]\((\w+)\)"), Action = A},
                 new Pattern { Regex = new Regex(@"!\[(\w+)\]\((\w+)\)"), Action = Img}
             };
-
         }
 
         public string Parse(string text)
         {
             bool k = true;
-            text = text.Replace("\r\n", "\n");
+            text = text.Trim().Replace("  ", " ").Replace("\r\n", Environment.NewLine);
             while (k)
             {
                 string textClone = text;
                 foreach (var pat in _patterns)
                 {
                     if (pat.Regex.IsMatch(text))
-                    text = pat.Regex.Replace(text, pat.Action);
+                        text = pat.Regex.Replace(text, pat.Action);
                 }
                 k = text != textClone;
             }
