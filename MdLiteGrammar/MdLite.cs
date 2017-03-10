@@ -12,18 +12,18 @@ namespace MdLiteGrammar
         {
             _patterns = new List<Pattern>
             {
-                new Pattern { Regex = new Regex(@"(#{1,6})((\w{1} {0,1})+)$"), Action = H},
-                new Pattern { Regex = new Regex(@"\*(\w+)\*"), Action = Em},
-                new Pattern { Regex = new Regex(@"\*\*(\w+)\*\*"), Action = Strong},
-                new Pattern { Regex = new Regex(@"\[(\w+)\]\((\w+)\)"), Action = A},
-                new Pattern { Regex = new Regex(@"!\[(\w+)\]\((\w+)\)"), Action = Img}
+                new Pattern { Regex = new Regex(@"(#{1,6})(.?)$"), Action = H},
+                new Pattern { Regex = new Regex(@"\*\*(.+?)\*\*"), Action = Strong},
+                new Pattern { Regex = new Regex(@"\*(.+?)\*"), Action = Em},
+                new Pattern { Regex = new Regex(@"!\[(.*?)\]\((.*?)\)"), Action = Img},
+                new Pattern { Regex = new Regex(@"\[(.*?)\]\((.*?)\)"), Action = A},
             };
         }
 
         public string Parse(string text)
         {
             bool k = true;
-            text = text.Trim().Replace("  ", " ").Replace("\r\n", Environment.NewLine);
+            text = text.Trim().Replace("  ", " ");//.Replace("\r\n", "\n");
             while (k)
             {
                 string textClone = text;
