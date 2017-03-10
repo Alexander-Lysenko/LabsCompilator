@@ -15,9 +15,9 @@ namespace MustacheGrammar
             _patterns = new List<Pattern>
             {
                 new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*}}"), Action = Repl},
-                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+upper\s*}}"), Action = ReplUpper},
-                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+lower\s*}}"), Action = ReplLower},
-                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s+title\s*}}"), Action = ReplTitle},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s*upper\s*}}"), Action = ReplUpper},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s*lower\s*}}"), Action = ReplLower},
+                new Pattern { Regex = new Regex(@"{{\s*(\w+)\s*\|\s*title\s*}}"), Action = ReplTitle},
                 new Pattern { Regex = new Regex(@"{{\s*ifnot\s*(\w+):\s*(\w+)\s*}}"), Action = ReplIfnot},
             };
         }
@@ -32,7 +32,7 @@ namespace MustacheGrammar
 
                 foreach (var pat in _patterns)
                 {
-                    pat.Regex.Replace(text, pat.Action);
+                    text = pat.Regex.Replace(text, pat.Action);
                 }
                 k = text != textClone;
             }
@@ -42,17 +42,18 @@ namespace MustacheGrammar
         private void ParsDictionary(string dictionary)
         {
             string[] lines = dictionary.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            Regex r = new Regex(@"^(\w+)\s*-\s*(\w+)$");
+            //Regex r = new Regex(@"^(.+?)-(.+?)");
+            Regex r = new Regex(@"^(.+?)\:\s*""(.+?)""$");
             foreach (var l in lines)
             {
                 Match m = r.Match(l.Trim());
                 if (m.Success)
                 {
-                    _dictionary.Add(m.Groups[1].Value, m.Groups[2].Value);
+                    _dictionary.Add(m.Groups[1].Value.Trim(), m.Groups[2].Value.Trim());
                 }
                 else
                 {
-                    throw new KeyOrValueException("Не удалось распознать Ключь-Значение");
+                    throw new KeyOrValueException("Не удалось распознать пару Ключ-Значение");
                 }
             }
         }
@@ -60,7 +61,7 @@ namespace MustacheGrammar
         private void KeyCorrect(string key)
         {
             if (!_dictionary.ContainsKey(key))
-                throw new NotKeyException("Попытка обратится к несуществующему ключу");
+                throw new NotKeyException("Попытка обращения к несуществующему ключу");
         }
 
         private string Repl(Match mtch)
