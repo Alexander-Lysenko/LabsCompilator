@@ -12,11 +12,11 @@ namespace MdLiteGrammar
         {
             _patterns = new List<Pattern>
             {
-                new Pattern { Regex = new Regex(@"(#{1,6})(.?)$"), Action = H},
-                new Pattern { Regex = new Regex(@"\*\*(.+?)\*\*"), Action = Strong},
-                new Pattern { Regex = new Regex(@"\*(.+?)\*"), Action = Em},
-                new Pattern { Regex = new Regex(@"!\[(.*?)\]\((.*?)\)"), Action = Img},
-                new Pattern { Regex = new Regex(@"\[(.*?)\]\((.*?)\)"), Action = A},
+                new Pattern { Regex = new Regex(@"(#{1,6})(.+?)\r\n", RegexOptions.Singleline), Action = H},
+                new Pattern { Regex = new Regex(@"\*\*(.+?)\*\*", RegexOptions.Singleline), Action = Strong},
+                new Pattern { Regex = new Regex(@"\*(.+?)\*", RegexOptions.Singleline), Action = Em},
+                new Pattern { Regex = new Regex(@"!\[(.*?)\]\((.*?)\)", RegexOptions.Singleline), Action = Img},
+                new Pattern { Regex = new Regex(@"\[(.*?)\]\((.*?)\)", RegexOptions.Singleline), Action = A},
             };
         }
 
@@ -39,7 +39,7 @@ namespace MdLiteGrammar
 
         private string H(Match match)
         {
-            return string.Format("<h{0}>{1}</h{0}>", match.Groups[1].Value.Length, match.Groups[2].Value);
+            return string.Format("<h{0}>{1}</h{0}>\r\n", match.Groups[1].Value.Length, match.Groups[2].Value);
         }
 
         private string Em(Match match)
