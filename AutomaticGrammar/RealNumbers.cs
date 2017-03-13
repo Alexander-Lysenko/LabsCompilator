@@ -12,7 +12,7 @@ namespace AutomaticGrammar
         {
             _table = new[,]{
                 {2,1,7,7,7},
-                {1,7,7,7,7},
+                {2,7,7,7,7},
                 {2,7,3,4,7},
                 {3,7,7,4,7},
                 {6,5,7,7,7},
@@ -36,7 +36,7 @@ namespace AutomaticGrammar
             return 4;
         }
 
-        public bool lol(string text)
+        public bool Lol(string text)
         {
             if (string.IsNullOrEmpty(text))
                 throw new ArgumentNullException();
