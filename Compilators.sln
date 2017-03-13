@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrammarOfArithmetic", "Gram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrammarOfArithmeticTests", "GrammarOfArithmeticTests\GrammarOfArithmeticTests.csproj", "{5F073C89-6A28-40AF-9EF1-71A4796805D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticGrammar", "AutomaticGrammar\AutomaticGrammar.csproj", "{29B75DA6-47B8-4570-AA11-A77E68BFC8E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{5F073C89-6A28-40AF-9EF1-71A4796805D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F073C89-6A28-40AF-9EF1-71A4796805D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F073C89-6A28-40AF-9EF1-71A4796805D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B75DA6-47B8-4570-AA11-A77E68BFC8E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B75DA6-47B8-4570-AA11-A77E68BFC8E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B75DA6-47B8-4570-AA11-A77E68BFC8E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B75DA6-47B8-4570-AA11-A77E68BFC8E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
