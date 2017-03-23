@@ -10,13 +10,13 @@ namespace AutomaticGrammar.Tests
         {
             RealNumbers r = new RealNumbers();
             string s = "123";
-            Assert.AreEqual(r.Lol(s), true);
+            Assert.AreEqual(r.Vetify(s), true);
             s = "+123";
-            Assert.AreEqual(r.Lol(s), true);
+            Assert.AreEqual(r.Vetify(s), true);
             s = "-123";
-            Assert.AreEqual(r.Lol(s), true);
+            Assert.AreEqual(r.Vetify(s), true);
             s = "12lol";
-            Assert.AreEqual(r.Lol(s), false);
+            Assert.AreEqual(r.Vetify(s), false);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace AutomaticGrammar
             return 4;
         }
 
-        public bool Lol(string text)
+        public bool Vetify(string text)
         {
             if (string.IsNullOrEmpty(text))
                 throw new ArgumentNullException();

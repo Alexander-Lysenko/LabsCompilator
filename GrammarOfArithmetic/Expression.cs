@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace GrammarOfArithmetic
 {
-    public class Expression
+    public class ExpressionModule
     {
         private readonly string _expression;
         private int _position;
         private readonly Stack<double> _stack;
 
-        public Expression(string expression)
+        public ExpressionModule(string expression)
         {
             _expression = expression.Trim().Replace(" ", string.Empty);
             _position = 0;
@@ -20,7 +20,7 @@ namespace GrammarOfArithmetic
         {
             E();
             if (_position != _expression.Length)
-                throw new GrammarException($"{_position}");
+                throw new GrammarException(String.Format("{0}", _position));
             return _stack.Pop();
         }
 
@@ -135,7 +135,7 @@ namespace GrammarOfArithmetic
             }
             catch (Exception)
             {
-                throw new GrammarException($"{_position}");
+                throw new GrammarException(String.Format("{0}", _position));
             }
         }
 
@@ -144,7 +144,7 @@ namespace GrammarOfArithmetic
             _position++;
             E();
             if (!CharCorrect(')'))
-                throw new GrammarException($"{_position}");
+                throw new GrammarException(String.Format("{0}", _position));
             _position++;
         }
     }

@@ -5,11 +5,11 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("AsmUI")]
+[assembly: AssemblyTitle("GrammarOfArithmeticUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AsmUI")]
+[assembly: AssemblyProduct("GrammarOfArithmeticUI")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,11 +31,11 @@ using System.Windows;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //где расположены словари ресурсов по конкретным тематикам
-                                     //(используется, если ресурс не найден на странице 
-                                     // или в словарях ресурсов приложения)
+    //(используется, если ресурс не найден на странице 
+    // или в словарях ресурсов приложения)
     ResourceDictionaryLocation.SourceAssembly //где расположен словарь универсальных ресурсов
-                                              //(используется, если ресурс не найден на странице, 
-                                              // в приложении или в каких-либо словарях ресурсов для конкретной темы)
+    //(используется, если ресурс не найден на странице, 
+    // в приложении или в каких-либо словарях ресурсов для конкретной темы)
 )]
 
 

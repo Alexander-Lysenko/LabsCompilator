@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace AsmUI
+namespace GrammarOfArithmeticUI
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

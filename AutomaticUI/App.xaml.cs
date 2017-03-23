@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace AsmUI
+namespace AutomaticUI
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml
