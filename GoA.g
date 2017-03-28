@@ -16,8 +16,12 @@ options
 	private Stack<double> _stack = new Stack<double>();
 }
 	
-e	:t
-	|ep
+	
+public calc returns[Stack<double> value]
+	:  e {$value = _stack;}
+	;
+
+e	:t ep
 	;
 
 ep	:'+'t ep {_stack.Push(_stack.pop()+_stack.pop());}
