@@ -24,16 +24,16 @@ public calc returns[Stack<double> value]
 e	:t ep
 	;
 
-ep	:'+'t ep {_stack.Push(_stack.pop()+_stack.pop());}
-	|'-'t ep {double a = _stack.Pop();_stack.Push(_stack.Pop()-a);}
+ep	:'+' t {_stack.Push(_stack.pop()+_stack.pop());} ep
+	|'-' t {double a = _stack.Pop();_stack.Push(_stack.Pop()-a);} ep
 	;
 	
 t	:f tp
 	;
 
-tp	:'*' f tp {_stack.Push(_stack.Pop()*_stack.Pop())}
-	|'/' f tp {double a = _stack.pop();_stack.Push(_stack.Pop()/a);}
-	|'^' f tp {double a = _stack.pop();_stack.Push(Math.Pow(_stack.pop(),a));}
+tp	:'*' f {_stack.Push(_stack.Pop()*_stack.Pop())} tp
+	|'/' f {double a = _stack.pop();_stack.Push(_stack.Pop()/a);} tp
+	|'^' f {double a = _stack.pop();_stack.Push(Math.Pow(_stack.pop(),a));} tp
 	;
 
 f	:'-' fp {_stack.Push(-_stack.pop())}
