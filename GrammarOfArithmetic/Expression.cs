@@ -71,8 +71,8 @@ namespace GrammarOfArithmetic
         {
             _position++;
             T();
-            Ep();
             _stack.Push(f(_stack.Pop(), _stack.Pop()));
+            Ep();
         }
 
         private void T()
@@ -101,8 +101,8 @@ namespace GrammarOfArithmetic
         {
             _position++;
             F();
-            Tp();
             _stack.Push(f(_stack.Pop(), _stack.Pop()));
+            Tp();
         }
 
         private void F()
@@ -127,9 +127,10 @@ namespace GrammarOfArithmetic
         {
             if (CharCorrect('('))
             {
+                _position++;
                 FpF();
             }
-            else if (StringCorrect("SQRT("))
+            else if (StringCorrect("SQRT(") || StringCorrect("sqrt("))
             {
                 FpF();
                 _stack.Push(Math.Sqrt(_stack.Pop()));
@@ -156,7 +157,6 @@ namespace GrammarOfArithmetic
 
         private void FpF()
         {
-            _position++;
             E();
             if (!CharCorrect(')'))
                 throw new GrammarException(_position.ToString());
