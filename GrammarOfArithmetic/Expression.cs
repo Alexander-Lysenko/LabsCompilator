@@ -162,52 +162,6 @@ namespace GrammarOfArithmetic
                 throw new GrammarException(_position.ToString());
             _position++;
         }
-
-        //private void F()
-        //{
-        //    string sign = "";
-        //    if (CharCorrect('-') || CharCorrect('+'))
-        //    {
-        //        sign += _expression[_position];
-        //        _position++;
-        //    }
-        //    if (CharCorrect('('))
-        //    {
-        //        Fp();
-        //        if (sign == "-")
-        //            _stack.Push(_stack.Pop() * -1);
-        //        return;
-        //    }
-        //    if (StringCorrect("SQRT("))
-        //    {
-        //        Fp();
-        //        _stack.Push(Math.Sqrt(_stack.Pop()) * (sign == "-" ? -1 : 1));
-        //        return;
-        //    }
-        //    string text = sign;
-        //    while (_position < _expression.Length && (char.IsDigit(_expression[_position]) || CharCorrect('.')))
-        //    {
-        //        text += _expression[_position];
-        //        _position++;
-        //    }
-        //    try
-        //    {
-        //        if (!string.IsNullOrEmpty(text))
-        //            _stack.Push(double.Parse(text));
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw new GrammarException(String.Format("{0}", _position));
-        //    }
-        //}
-
-        //private void Fp()
-        //{
-        //    _position++;
-        //    E();
-        //    if (!CharCorrect(')'))
-        //        throw new GrammarException(string.Format("{0}", _position));
-        //    _position++;
-        //}
+        
     }
 }
