@@ -6,7 +6,7 @@ namespace AutomaticGrammar.Tests
     public class RealNumbersTests
     {
         [TestMethod()]
-        public void LolTest()
+        public void VetifyTest()
         {
             RealNumbers r = new RealNumbers();
             string s = "123";
@@ -15,8 +15,10 @@ namespace AutomaticGrammar.Tests
             Assert.AreEqual(r.Vetify(s), true);
             s = "-123";
             Assert.AreEqual(r.Vetify(s), true);
-            s = "12lol";
+            s = "lol";
             Assert.AreEqual(r.Vetify(s), false);
+            s = "-123.123e+123";
+            Assert.AreEqual(r.Vetify(s), true);
         }
     }
 }
