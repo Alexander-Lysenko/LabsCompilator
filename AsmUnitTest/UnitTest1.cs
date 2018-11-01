@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AsmGrammar;
+﻿using AsmGrammar;
+using NUnit.Framework;
 
 namespace AsmUnitTest
 {
-    [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ParserException))]
         public void CannotParseString()
         {
@@ -14,7 +13,7 @@ namespace AsmUnitTest
             asm.Evaluate(@"Джигурда");
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(AddressException))]
         public void AddressException()
         {
@@ -22,7 +21,7 @@ namespace AsmUnitTest
             asm.Evaluate(@"ld r20, #15");
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ParameterOutOfRangeException))]
         public void ParameterOutOfRangeException()
         {
@@ -30,7 +29,7 @@ namespace AsmUnitTest
             asm.Evaluate(@"ld r2, #256");
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(LabelUnavailableException))]
         public void LabelDoesNotExist()
         {
@@ -45,7 +44,7 @@ brgz metka, r1
 ");
         }
 
-        [TestMethod]
+        [Test]
         public void CalculationVerify()
         {
             Asm asm = new Asm();
